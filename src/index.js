@@ -1,17 +1,94 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import './index.css'
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
-);
+class App extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            page: "Any Date"
+        };
+    }
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+    changePage = (page) => {
+        this.setState({ page: page });
+    }
+
+    render() {
+        let page;
+
+        switch (this.state.page) {
+            case "Any Date":
+                page = <AnyDate />
+                break;
+            case "Birthday":
+                page = <Birthday />
+                break;
+            case "New Year":
+                page = <NewYear />
+        };
+
+        return (
+            <div>
+                <div className="tabs">
+                    <Tab name="Any Date" onClick={this.changePage} />
+                    <Tab name="Birthday" onClick={this.changePage} />
+                    <Tab name="New Year" onClick={this.changePage} />
+                </div>
+                {page}
+            </div>
+        );
+    }
+}
+
+class Tab extends React.Component {
+    render() {
+        return (
+            <button
+                className="btn tab"
+                id={this.props.name.replace(' ', '').toLowerCase()}
+                onClick={() => this.props.onClick(this.props.name)}
+            >
+                {this.props.name}
+            </button>
+        );
+    }
+}
+
+class AnyDate extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            time: new Date(),
+        }
+    }
+
+    handleInput = (e) => {
+        console.log(e.target.valueAsNumber - this.state.time.getTime()); // UNIX Time
+    }
+
+    render() {
+        console.log(this.state.time.getDay())
+        return (
+            <div>
+                <input type="date" onInput={e => this.handleInput(e)} />
+            </div>
+        );
+    }
+}
+class Birthday extends React.Component {
+    render() {
+        return (
+            <p>Birthday</p>
+        );
+    }
+}
+class NewYear extends React.Component {
+    render() {
+        return (
+            <p>NewYear</p>
+        );
+    }
+}
+
+ReactDOM.render(<App />, document.getElementById('root')); 
