@@ -10,7 +10,7 @@ class App extends React.Component {
         };
     }
 
-    changePage = (page) => {
+    changePage = page => {
         this.setState({ page: page });
     }
 
@@ -106,11 +106,12 @@ class AnyDate extends React.Component {
                     onInput={e => this.handleInput(e)}
                     min={this.getMinDate(this.state.time)}
                 />
-                <p>{timeLeft}</p>
+                <p className='countdown'>{timeLeft}</p>
             </div>
         );
     }
 }
+
 class Birthday extends React.Component {
     render() {
         return (
@@ -118,6 +119,7 @@ class Birthday extends React.Component {
         );
     }
 }
+
 class NewYear extends React.Component {
     render() {
         return (
@@ -125,5 +127,10 @@ class NewYear extends React.Component {
         );
     }
 }
+
+// TODO
+// style timer
+// Add zero to the end of time
+// Make other tabs functioning
 
 ReactDOM.render(<App />, document.getElementById('root')); 
