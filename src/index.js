@@ -29,14 +29,14 @@ class App extends React.Component {
         };
 
         return (
-            <div>
+            <>
                 <div className="tabs">
                     <Tab name="Any Date" onClick={this.changePage} />
                     <Tab name="Birthday" onClick={this.changePage} />
                     <Tab name="New Year" onClick={this.changePage} />
                 </div>
                 {page}
-            </div>
+            </>
         );
     }
 }
@@ -60,18 +60,53 @@ class AnyDate extends React.Component {
         super(props);
         this.state = {
             time: new Date(),
+            countdown: 0,
         }
     }
 
-    handleInput = (e) => {
-        console.log(e.target.valueAsNumber - this.state.time.getTime()); // UNIX Time
+    componentDidMount() {
+        this.timerID = setInterval(() =>
+            this.setState({
+                time: new Date(),
+                countdown: this.state.countdown > 0 ? this.state.countdown - 1 : 0,
+            }), 1000);
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.timerID);
+    }
+
+    handleInput = e => {
+        const countdown = (e.target.valueAsNumber - this.state.time.getTime() + this.state.time.getTimezoneOffset() * 60 * 1000) / 1000;
+        this.setState({ countdown: countdown });
+    }
+
+    getMinDate = () => {
+        var currentDate = new Date();
+        currentDate.setDate(currentDate.getDate() + 1);
+        return currentDate.toISOString().split('T')[0];
     }
 
     render() {
-        console.log(this.state.time.getDay())
+        const minute = 60;
+        const hour = minute * 60;
+        const day = hour * 24;
+
+        let d = Math.floor(this.state.countdown / day);
+        let h = Math.floor(this.state.countdown % day / hour);
+        let m = Math.floor(this.state.countdown % hour / minute);
+        let s = Math.floor(this.state.countdown % minute);
+
+        const timeLeft = `${d}:${h}:${m}:${s}`;
+
         return (
-            <div>
-                <input type="date" onInput={e => this.handleInput(e)} />
+            <div className="anydate">
+                <input
+                    type="date"
+                    onInput={e => this.handleInput(e)}
+                    min={this.getMinDate(this.state.time)}
+                />
+                <p>{timeLeft}</p>
             </div>
         );
     }
