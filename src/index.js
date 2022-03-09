@@ -40,7 +40,6 @@ class Timer extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            time: new Date(),
             countdown: 0,
         }
     }
@@ -48,7 +47,6 @@ class Timer extends React.Component {
     componentDidMount() {
         this.timerID = setInterval(() =>
             this.setState({
-                time: new Date(),
                 countdown: this.state.countdown > 0 ? this.state.countdown - 1 : 0,
             }), 1000);
     }
@@ -58,7 +56,8 @@ class Timer extends React.Component {
     }
 
     handleInput = e => {
-        const countdown = (e.target.valueAsNumber - this.state.time.getTime() + this.state.time.getTimezoneOffset() * 60 * 1000) / 1000;
+        const date = new Date();
+        const countdown = (e.target.valueAsNumber - date.getTime() + date.getTimezoneOffset() * 60 * 1000) / 1000;
         this.setState({ countdown: countdown });
     }
 
@@ -96,7 +95,7 @@ class Timer extends React.Component {
                     <input
                         type="date"
                         onInput={e => this.handleInput(e)}
-                        min={this.getMinDate(this.state.time)}
+                        min={this.getMinDate()}
                     />
                 </label>
             </>
@@ -105,7 +104,6 @@ class Timer extends React.Component {
 }
 
 // TODO
-// style timer
 // add themes
 
 ReactDOM.render(<App />, document.getElementById('root')); 
