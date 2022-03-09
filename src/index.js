@@ -6,56 +6,37 @@ class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            page: "Any Date"
+            theme: ""
         };
-    }
-
-    changePage = page => {
-        this.setState({ page: page });
     }
 
     render() {
-        let page;
+        return (
+            <div className="timer">
+                <Timer />
+                <ThemeChanger />
+            </div>
+        );
+    }
+}
 
-        switch (this.state.page) {
-            case "Any Date":
-                page = <AnyDate />
-                break;
-            case "Birthday":
-                page = <Birthday />
-                break;
-            case "New Year":
-                page = <NewYear />
-        };
-
+class ThemeChanger extends React.Component {
+    render() {
         return (
             <>
-                <div className="tabs">
-                    <Tab name="Any Date" onClick={this.changePage} />
-                    <Tab name="Birthday" onClick={this.changePage} />
-                    <Tab name="New Year" onClick={this.changePage} />
-                </div>
-                {page}
+                <label className="theme">Select theme:
+                    <select name="" id="">
+                        <option value="">Date</option>
+                        <option value="">Birthday</option>
+                        <option value="">New Year</option>
+                    </select>
+                </label>
             </>
         );
     }
 }
 
-class Tab extends React.Component {
-    render() {
-        return (
-            <button
-                className="btn tab"
-                id={this.props.name.replace(' ', '').toLowerCase()}
-                onClick={() => this.props.onClick(this.props.name)}
-            >
-                {this.props.name}
-            </button>
-        );
-    }
-}
-
-class AnyDate extends React.Component {
+class Timer extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -82,59 +63,56 @@ class AnyDate extends React.Component {
     }
 
     getMinDate = () => {
-        var currentDate = new Date();
+        const currentDate = new Date();
         currentDate.setDate(currentDate.getDate() + 1);
         return currentDate.toISOString().split('T')[0];
     }
 
-    render() {
+    getCountdown = countdown => {
         const minute = 60;
         const hour = minute * 60;
         const day = hour * 24;
 
-        let d = Math.floor(this.state.countdown / day);
-        let h = Math.floor(this.state.countdown % day / hour);
-        let m = Math.floor(this.state.countdown % hour / minute);
-        let s = Math.floor(this.state.countdown % minute);
+        let d = Math.floor(countdown / day);
+        let h = Math.floor(countdown % day / hour);
+        let m = Math.floor(countdown % hour / minute);
+        let s = Math.floor(countdown % minute);
 
+<<<<<<< HEAD
 <<<<<<< Updated upstream
         const timeLeft = `${d}:${h}:${m}:${s}`;
 =======
         const addZeros = time => time.map(n => String(n).length === 1 ? '0' + n : n);
 >>>>>>> Stashed changes
+=======
+        const addZeros = time => time.map(n => String(n).length == 1 ? '0' + n : n);
+>>>>>>> 180502ca0ce3cf48f8ddc1dcebaa7523fb6ae022
 
-        return (
-            <div className="anydate">
-                <input
-                    type="date"
-                    onInput={e => this.handleInput(e)}
-                    min={this.getMinDate(this.state.time)}
-                />
-                <p className='countdown'>{timeLeft}</p>
-            </div>
-        );
+        return addZeros([d, h, m, s]);
     }
-}
 
-class Birthday extends React.Component {
     render() {
-        return (
-            <p>Birthday</p>
-        );
-    }
-}
+        const [d, h, m, s] = this.getCountdown(this.state.countdown);
 
-class NewYear extends React.Component {
-    render() {
+        const timeLeft = `${d}:${h}:${m}:${s}`;
+
         return (
-            <p>NewYear</p>
+            <>
+                <div className="countdown">{timeLeft}</div>
+                <label className="date">Select date:
+                    <input
+                        type="date"
+                        onInput={e => this.handleInput(e)}
+                        min={this.getMinDate(this.state.time)}
+                    />
+                </label>
+            </>
         );
     }
 }
 
 // TODO
 // style timer
-// Add zero to the end of time
-// Make other tabs functioning
+// add themes
 
 ReactDOM.render(<App />, document.getElementById('root')); 
