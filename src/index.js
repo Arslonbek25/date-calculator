@@ -97,7 +97,11 @@ class AnyDate extends React.Component {
         let m = Math.floor(this.state.countdown % hour / minute);
         let s = Math.floor(this.state.countdown % minute);
 
+<<<<<<< Updated upstream
         const timeLeft = `${d}:${h}:${m}:${s}`;
+=======
+        const addZeros = time => time.map(n => String(n).length === 1 ? '0' + n : n);
+>>>>>>> Stashed changes
 
         return (
             <div className="anydate">
