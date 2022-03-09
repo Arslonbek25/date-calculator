@@ -78,15 +78,8 @@ class Timer extends React.Component {
         let m = Math.floor(countdown % hour / minute);
         let s = Math.floor(countdown % minute);
 
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-        const timeLeft = `${d}:${h}:${m}:${s}`;
-=======
+
         const addZeros = time => time.map(n => String(n).length === 1 ? '0' + n : n);
->>>>>>> Stashed changes
-=======
-        const addZeros = time => time.map(n => String(n).length == 1 ? '0' + n : n);
->>>>>>> 180502ca0ce3cf48f8ddc1dcebaa7523fb6ae022
 
         return addZeros([d, h, m, s]);
     }
