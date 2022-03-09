@@ -1,0 +1,2 @@
+*{margin:0;padding:0}body{background:#f2f1ed;font-family:Arial,Helvetica,sans-serif}#root,body,html{height:100%;min-height:100%}#root,.timer{display:flex;flex-direction:column;justify-content:center}.timer{align-items:center;height:100%}.date,.theme{line-height:200%}.date input,.theme select{margin-left:5px}.countdown{align-items:center;display:flex;font-size:64px;height:inherit;letter-spacing:5px}
+/*# sourceMappingURL=main.d60ca97c.css.map*/
