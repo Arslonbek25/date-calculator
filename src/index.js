@@ -11,7 +11,28 @@ class App extends React.Component {
     }
 
     render() {
-        return <Timer />;
+        return (
+            <div className="timer">
+                <Timer />
+                <ThemeChanger />
+            </div>
+        );
+    }
+}
+
+class ThemeChanger extends React.Component {
+    render() {
+        return (
+            <>
+                <label className="theme">Select theme:
+                    <select name="" id="">
+                        <option value="">Date</option>
+                        <option value="">Birthday</option>
+                        <option value="">New Year</option>
+                    </select>
+                </label>
+            </>
+        );
     }
 }
 
@@ -68,20 +89,22 @@ class Timer extends React.Component {
         const timeLeft = `${d}:${h}:${m}:${s}`;
 
         return (
-            <div className="anydate">
-                <input
-                    type="date"
-                    onInput={e => this.handleInput(e)}
-                    min={this.getMinDate(this.state.time)}
-                />
-                <p className='countdown'>{timeLeft}</p>
-            </div>
+            <>
+                <div className="countdown">{timeLeft}</div>
+                <label className="date">Select date:
+                    <input
+                        type="date"
+                        onInput={e => this.handleInput(e)}
+                        min={this.getMinDate(this.state.time)}
+                    />
+                </label>
+            </>
         );
     }
 }
 
 // TODO
 // style timer
-// Add zero to the end of time - done
+// add themes
 
 ReactDOM.render(<App />, document.getElementById('root')); 
