@@ -7,7 +7,7 @@
 
 body {
     font-family: Arial, Helvetica, sans-serif;
-    background: #f2f1ed;
+    color: rgb(51, 51, 51);
 }
 
 html,
@@ -117,7 +117,7 @@ body,
 }
 
 .theme,
-.date {
+.pick-day {
     line-height: 200%;
 }
 
@@ -125,7 +125,7 @@ body,
     margin-left: 5px;
 }
 
-.date input {
+.pick-day input {
     margin-left: 5px;
 }
 
@@ -135,4 +135,16 @@ body,
     display: flex;
     align-items: center;
     height: inherit;
+}
+
+.date {
+    background: rgb(253, 237, 218);
+}
+
+.birthday {
+    background: rgb(255, 214, 78);
+}
+
+.newyear {
+    background: cyan;
 }
