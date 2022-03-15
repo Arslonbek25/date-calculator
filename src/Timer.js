@@ -49,7 +49,7 @@ export class Timer extends React.Component {
 
     render() {
         const [d, h, m, s] = this.getCountdown(this.state.countdown);
-        if (this.state.countdown == 0) {
+        if (this.state.countdown === 0) {
             console.log('time is up');
         }
         const timeLeft = `${d}:${h}:${m}:${s}`;
