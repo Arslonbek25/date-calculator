@@ -6,7 +6,7 @@ import './index.css'
 
 class App extends React.Component {
     render() {
-        return (
+        return ( 
             <div className="timer">
                 <Timer />
                 <ThemeChanger />
@@ -14,10 +14,5 @@ class App extends React.Component {
         );
     }
 }
-
-// TODO
-// pick appropriate themes
-// figure out a way to stop the timer and notify the user when time is up
-// fix min date
 
 ReactDOM.render(<App />, document.getElementById('root')); 
