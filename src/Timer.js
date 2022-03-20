@@ -9,6 +9,10 @@ export class Timer extends React.Component {
     }
 
     componentDidMount() {
+        let datePicker = document.querySelector("input[type='date']");
+        datePicker.value = new Date().getFullYear() + '-03-25';
+        this.handleInput(datePicker.valueAsNumber);
+
         this.intervalID = setInterval(() => {
             if (this.state.countdown === 4) {
                 let countdown = new Audio('countdown.wav');
@@ -23,11 +27,11 @@ export class Timer extends React.Component {
         clearInterval(this.intervalID);
     }
 
-    handleInput(e) {
-        if (isNaN(e.target.valueAsNumber)) return;
-        
+    handleInput(value) {
+        if (isNaN(value)) return;
+
         let date = new Date();
-        let countdown = (e.target.valueAsNumber - date.getTime() + date.getTimezoneOffset() * 60 * 1000) / 1000;
+        let countdown = (value - date.getTime() + date.getTimezoneOffset() * 60 * 1000) / 1000;
         this.setState({ countdown: countdown });
     };
 
@@ -64,7 +68,7 @@ export class Timer extends React.Component {
                 <label className="pick-day">Select date:
                     <input
                         type="date"
-                        onInput={e => this.handleInput(e)}
+                        onInput={e => this.handleInput(e.target.valueAsNumber)}
                         min={this.getMinDate()}
                     />
                 </label>
