@@ -24,17 +24,17 @@ export class Timer extends React.Component {
     }
 
     handleInput(e) {
-        if (isNaN(e.target.valueAsNumber))
-            return;
+        if (isNaN(e.target.valueAsNumber)) return;
+        
         let date = new Date();
         let countdown = (e.target.valueAsNumber - date.getTime() + date.getTimezoneOffset() * 60 * 1000) / 1000;
         this.setState({ countdown: countdown });
     };
 
     getMinDate() {
-        let currentDate = new Date();
-        currentDate.setDate(currentDate.getDate() + 1);
-        let tomorrow = this.addZero([currentDate.getFullYear(), currentDate.getMonth() + 1, currentDate.getDate()]).join('-');
+        let today = new Date();
+        today.setDate(today.getDate() + 1);
+        let tomorrow = this.addZero([today.getFullYear(), today.getMonth() + 1, today.getDate()]).join('-');
         return tomorrow;
     };
 
