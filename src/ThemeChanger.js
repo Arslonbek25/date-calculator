@@ -5,8 +5,8 @@ export class ThemeChanger extends React.Component {
         document.body.className = e.target.value;
     }
 
-    componentDidMount(e) {
-        document.body.className = "date";
+    componentDidMount() {
+        document.body.className = "default";
     }
 
     render() {
@@ -14,7 +14,7 @@ export class ThemeChanger extends React.Component {
             <>
                 <label className="theme">Select theme:
                     <select onChange={e => this.handleChange(e)}>
-                        <option value="date">Date</option>
+                        <option value="default">Default</option>
                         <option value="birthday">Birthday</option>
                         <option value="newyear">New Year</option>
                     </select>

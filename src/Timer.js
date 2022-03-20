@@ -10,6 +10,10 @@ export class Timer extends React.Component {
 
     componentDidMount() {
         this.intervalID = setInterval(() => {
+            if (this.state.countdown === 4) {
+                let countdown = new Audio('countdown.wav');
+                countdown.play();
+            }
             if (this.state.countdown > 0)
                 this.setState(prevState => ({ countdown: prevState.countdown - 1 }));
         }, 1000);
@@ -20,15 +24,18 @@ export class Timer extends React.Component {
     }
 
     handleInput(e) {
-        const date = new Date();
-        const countdown = (e.target.valueAsNumber - date.getTime() + date.getTimezoneOffset() * 60 * 1000) / 1000;
+        if (isNaN(e.target.valueAsNumber))
+            return;
+        let date = new Date();
+        let countdown = (e.target.valueAsNumber - date.getTime() + date.getTimezoneOffset() * 60 * 1000) / 1000;
         this.setState({ countdown: countdown });
     };
 
     getMinDate() {
-        const currentDate = new Date();
+        let currentDate = new Date();
         currentDate.setDate(currentDate.getDate() + 1);
-        return currentDate.toISOString().split('T')[0];
+        let tomorrow = this.addZero([currentDate.getFullYear(), currentDate.getMonth() + 1, currentDate.getDate()]).join('-');
+        return tomorrow;
     };
 
     getCountdown(countdown) {
@@ -42,17 +49,14 @@ export class Timer extends React.Component {
         let s = Math.floor(countdown % minute);
 
 
-        const addZeros = time => time.map(n => String(n).length === 1 ? '0' + n : n);
-
-        return addZeros([d, h, m, s]);
+        return this.addZero([d, h, m, s]);
     };
 
+    addZero = time => time.map(n => String(n).length === 1 ? '0' + n : n);
+
     render() {
-        const [d, h, m, s] = this.getCountdown(this.state.countdown);
-        if (this.state.countdown === 0) {
-            console.log('time is up');
-        }
-        const timeLeft = `${d}:${h}:${m}:${s}`;
+        let [d, h, m, s] = this.getCountdown(this.state.countdown);
+        let timeLeft = `${d}:${h}:${m}:${s}`;
 
         return (
             <>
