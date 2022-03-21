@@ -1,13 +1,16 @@
 import React from "react";
 
 export class ThemeChanger extends React.Component {
-    handleChange(e) {
-        document.body.className = e.target.value;
-        localStorage.setItem("theme", e.target.value);
+    handleChange(value) {
+        document.body.className = value;
+        localStorage.setItem("theme", value);
     }
 
     componentDidMount() {
-        document.body.className = localStorage.getItem("theme") || "default";
+        const theme = localStorage.getItem("theme") || "default";
+
+        document.body.className = theme;
+        document.querySelector("select").value = theme;
     }
 
     render() {
@@ -15,7 +18,7 @@ export class ThemeChanger extends React.Component {
             <>
                 <label className="theme">
                     Select theme:
-                    <select onChange={(e) => this.handleChange(e)}>
+                    <select onChange={(e) => this.handleChange(e.target.value)}>
                         <option value="default">Default</option>
                         <option value="birthday">Birthday</option>
                         <option value="newyear">New Year</option>
