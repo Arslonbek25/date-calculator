@@ -3,29 +3,50 @@ import React from "react";
 export class Timer extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            countdown: 0,
-        };
+        this.state = { countdown: localStorage.getItem("countdown") || 0 };
     }
 
     componentDidMount() {
-        this.setMyBirthday();
+        if (localStorage.getItem("countdown")) {
+            const storedDate = new Date(
+                new Date().getTime() +
+                    parseInt(localStorage.getItem("countdown") * 1000)
+            );
+            this.setDate(
+                this.addZero(
+                    [
+                        storedDate.getFullYear(),
+                        storedDate.getMonth() + 1,
+                        storedDate.getDate(),
+                    ],
+                    "-"
+                )
+            );
+            console.log("Made by Madyarov Arslan");
+        } else this.setMyBirthday();
+
         this.intervalID = setInterval(() => {
             if (this.state.countdown === 4) {
                 let countdown = new Audio("countdown.wav");
                 countdown.play();
             }
-            if (this.state.countdown > 0)
+            if (this.state.countdown > 0) {
                 this.setState((prevState) => ({
                     countdown: prevState.countdown - 1,
                 }));
+                localStorage.setItem("countdown", this.state.countdown);
+            }
         }, 1000);
     }
 
     setMyBirthday() {
+        this.handleInput(this.setDate(new Date().getFullYear() + "-03-25"));
+    }
+
+    setDate(date) {
         let datePicker = document.querySelector("input[type='date']");
-        datePicker.value = new Date().getFullYear() + "-03-25";
-        this.handleInput(datePicker.valueAsNumber);
+        datePicker.value = date;
+        return datePicker.valueAsNumber;
     }
 
     componentWillUnmount() {
@@ -48,11 +69,10 @@ export class Timer extends React.Component {
     getMinDate() {
         let today = new Date();
         today.setDate(today.getDate() + 1);
-        let tomorrow = this.addZero([
-            today.getFullYear(),
-            today.getMonth() + 1,
-            today.getDate(),
-        ]).join("-");
+        let tomorrow = this.addZero(
+            [today.getFullYear(), today.getMonth() + 1, today.getDate()],
+            "-"
+        );
         return tomorrow;
     }
 
@@ -66,14 +86,14 @@ export class Timer extends React.Component {
         let m = Math.floor((countdown % hour) / minute);
         let s = Math.floor(countdown % minute);
 
-        return this.addZero([d, h, m, s]);
+        return this.addZero([d, h, m, s], ":");
     }
 
-    addZero = (time) => time.map((n) => (String(n).length === 1 ? "0" + n : n));
+    addZero = (time, separator) =>
+        time.map((n) => (String(n).length === 1 ? "0" + n : n)).join(separator);
 
     render() {
-        let [d, h, m, s] = this.getCountdown(this.state.countdown);
-        let timeLeft = `${d}:${h}:${m}:${s}`;
+        let timeLeft = this.getCountdown(this.state.countdown);
 
         return (
             <>
