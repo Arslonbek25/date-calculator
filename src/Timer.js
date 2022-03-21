@@ -9,10 +9,7 @@ export class Timer extends React.Component {
     }
 
     componentDidMount() {
-        let datePicker = document.querySelector("input[type='date']");
-        datePicker.value = new Date().getFullYear() + "-03-25";
-        this.handleInput(datePicker.valueAsNumber);
-
+        this.setMyBirthday();
         this.intervalID = setInterval(() => {
             if (this.state.countdown === 4) {
                 let countdown = new Audio("countdown.wav");
@@ -25,12 +22,21 @@ export class Timer extends React.Component {
         }, 1000);
     }
 
+    setMyBirthday() {
+        let datePicker = document.querySelector("input[type='date']");
+        datePicker.value = new Date().getFullYear() + "-03-25";
+        this.handleInput(datePicker.valueAsNumber);
+    }
+
     componentWillUnmount() {
         clearInterval(this.intervalID);
     }
 
     handleInput(value) {
-        if (isNaN(value)) return;
+        if (isNaN(value)) {
+            this.setMyBirthday();
+            return;
+        }
 
         let date = new Date();
         let countdown =
