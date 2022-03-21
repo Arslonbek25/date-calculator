@@ -1,12 +1,12 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { Timer } from './Timer';
-import { ThemeChanger } from './ThemeChanger';
-import './index.css'
+import React from "react";
+import ReactDOM from "react-dom";
+import { Timer } from "./Timer";
+import { ThemeChanger } from "./ThemeChanger";
+import "./index.css";
 
 class App extends React.Component {
     render() {
-        return ( 
+        return (
             <div className="timer">
                 <Timer />
                 <ThemeChanger />
@@ -15,4 +15,4 @@ class App extends React.Component {
     }
 }
 
-ReactDOM.render(<App />, document.getElementById('root')); 
+ReactDOM.render(<App />, document.getElementById("root"));

@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 export class ThemeChanger extends React.Component {
     handleChange(e) {
@@ -12,8 +12,9 @@ export class ThemeChanger extends React.Component {
     render() {
         return (
             <>
-                <label className="theme">Select theme:
-                    <select onChange={e => this.handleChange(e)}>
+                <label className="theme">
+                    Select theme:
+                    <select onChange={(e) => this.handleChange(e)}>
                         <option value="default">Default</option>
                         <option value="birthday">Birthday</option>
                         <option value="newyear">New Year</option>
