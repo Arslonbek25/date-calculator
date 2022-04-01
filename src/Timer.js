@@ -3,22 +3,19 @@ import React from "react";
 export class Timer extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { countdown: localStorage.getItem("countdown") || 0 };
+        this.state = {
+            countdown: localStorage.getItem("countdown") || 0,
+        };
     }
 
     componentDidMount() {
         if (localStorage.getItem("countdown") > 0) {
             const storedDate = new Date(
-                new Date().getTime() +
-                    parseInt(localStorage.getItem("countdown") * 1000)
+                new Date().getTime() + parseInt(localStorage.getItem("countdown") * 1000)
             );
             this.setDate(
-                this.addZero(
-                    [
-                        storedDate.getFullYear(),
-                        storedDate.getMonth() + 1,
-                        storedDate.getDate(),
-                    ],
+                this.formatTime(
+                    [storedDate.getFullYear(), storedDate.getMonth() + 1, storedDate.getDate()],
                     "-"
                 )
             );
@@ -42,11 +39,7 @@ export class Timer extends React.Component {
     setMyBirthday() {
         let date = new Date();
         let year = date.getFullYear();
-        if (
-            date.getMonth() > 2 ||
-            (date.getDate() >= 25 && date.getMonth() === 2)
-        )
-            year++;
+        if (date.getMonth() > 2 || (date.getDate() >= 25 && date.getMonth() === 2)) year++;
 
         this.handleInput(this.setDate(year + "-03-25"));
     }
@@ -61,27 +54,40 @@ export class Timer extends React.Component {
         clearInterval(this.intervalID);
     }
 
-    handleInput(value) {
+    handleInput(value, e) {
+        const date = new Date();
+        const offset = Math.floor((new Date(value) - date) / 1000 / 60 / 60 / 24);
+
         if (isNaN(value)) {
             this.setMyBirthday();
             return;
         }
+        console.log(e);
+        if (offset > 365) {
+            // e.preventDefault();
+            return false;
+        }
 
-        let date = new Date();
-        let countdown =
-            (value - date.getTime() + date.getTimezoneOffset() * 60 * 1000) /
-            1000;
-        this.setState({ countdown: countdown });
+        let countdown = (value - date.getTime() + date.getTimezoneOffset() * 60 * 1000) / 1000;
+        this.setState({
+            countdown: countdown,
+        });
     }
 
     getMinDate() {
         let today = new Date();
-        today.setDate(today.getDate() + 1);
-        let tomorrow = this.addZero(
-            [today.getFullYear(), today.getMonth() + 1, today.getDate()],
+        return this.formatTime(
+            [today.getFullYear(), today.getMonth() + 1, today.getDate() + 1],
             "-"
         );
-        return tomorrow;
+    }
+
+    getMaxDate() {
+        let today = new Date();
+        return this.formatTime(
+            [today.getFullYear() + 1, today.getMonth() + 1, today.getDate()],
+            "-"
+        );
     }
 
     getCountdown(countdown) {
@@ -94,10 +100,10 @@ export class Timer extends React.Component {
         let m = Math.floor((countdown % hour) / minute);
         let s = Math.floor(countdown % minute);
 
-        return this.addZero([d, h, m, s], ":");
+        return this.formatTime([d, h, m, s], ":");
     }
 
-    addZero = (time, separator) =>
+    formatTime = (time, separator) =>
         time.map((n) => (String(n).length === 1 ? "0" + n : n)).join(separator);
 
     render() {
@@ -110,10 +116,9 @@ export class Timer extends React.Component {
                     Select date:
                     <input
                         type="date"
-                        onInput={(e) =>
-                            this.handleInput(e.target.valueAsNumber)
-                        }
+                        onInput={(e) => this.handleInput(e.target.valueAsNumber, e)}
                         min={this.getMinDate()}
+                        max={this.getMaxDate()}
                     />
                 </label>
             </>
