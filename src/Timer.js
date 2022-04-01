@@ -4,22 +4,24 @@ export class Timer extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            countdown: localStorage.getItem("countdown") || 0,
+            countdown: 0,
         };
     }
 
     componentDidMount() {
+        console.log("Made by Madyarov Arslan");
+
         if (localStorage.getItem("countdown") > 0) {
-            const storedDate = new Date(
+            const date = new Date(
                 new Date().getTime() + parseInt(localStorage.getItem("countdown") * 1000)
             );
-            this.setDate(
-                this.formatTime(
-                    [storedDate.getFullYear(), storedDate.getMonth() + 1, storedDate.getDate()],
-                    "-"
+
+            date.setHours(0, 0, 0, 0);
+            this.handleInput(
+                this.setDate(
+                    this.formatTime([date.getFullYear(), date.getMonth() + 1, date.getDate()], "-")
                 )
             );
-            console.log("Made by Madyarov Arslan");
         } else this.setMyBirthday();
 
         this.intervalID = setInterval(() => {
@@ -54,21 +56,14 @@ export class Timer extends React.Component {
         clearInterval(this.intervalID);
     }
 
-    handleInput(value, e) {
-        const date = new Date();
-        const offset = Math.floor((new Date(value) - date) / 1000 / 60 / 60 / 24);
-
+    handleInput(value) {
         if (isNaN(value)) {
             this.setMyBirthday();
             return;
         }
-        console.log(e);
-        if (offset > 365) {
-            // e.preventDefault();
-            return false;
-        }
 
-        let countdown = (value - date.getTime() + date.getTimezoneOffset() * 60 * 1000) / 1000;
+        const date = new Date();
+        const countdown = (value - date.getTime() + date.getTimezoneOffset() * 60 * 1000) / 1000;
         this.setState({
             countdown: countdown,
         });
