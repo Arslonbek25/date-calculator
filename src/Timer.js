@@ -7,7 +7,7 @@ export class Timer extends React.Component {
     }
 
     componentDidMount() {
-        if (localStorage.getItem("countdown")) {
+        if (localStorage.getItem("countdown") > 0) {
             const storedDate = new Date(
                 new Date().getTime() +
                     parseInt(localStorage.getItem("countdown") * 1000)
@@ -40,7 +40,15 @@ export class Timer extends React.Component {
     }
 
     setMyBirthday() {
-        this.handleInput(this.setDate(new Date().getFullYear() + "-03-25"));
+        let date = new Date();
+        let year = date.getFullYear();
+        if (
+            date.getMonth() > 2 ||
+            (date.getDate() >= 25 && date.getMonth() === 2)
+        )
+            year++;
+
+        this.handleInput(this.setDate(year + "-03-25"));
     }
 
     setDate(date) {
